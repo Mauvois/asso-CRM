@@ -1,0 +1,11 @@
+steps:
+  - name: deploy
+    image: docker:26.0.0-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - echo "✅ Pulling latest images..."
+      - docker compose pull
+      - echo "♻️ Rebuilding containers..."
+      - docker compose up -d --build --remove-orphans
+      - echo "🚀 Deployment done."

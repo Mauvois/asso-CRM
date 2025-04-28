@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.5
+    container_name: crm_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - crm_net
+
+  wordpress:
+    image: wordpress:php8.2-apache
+    container_name: crm_wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - crm_net
+    ports:
+      - "8080:80" # Accès local temporaire, sinon Cloudflared prendra le relais
+
+volumes:
+  db_data:
+  wordpress_data:
+
+networks:
+  crm_net:
+    driver: bridge
