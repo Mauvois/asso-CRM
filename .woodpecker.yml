@@ -9,3 +9,8 @@ steps:
       - echo "♻️ Rebuilding containers..."
       - docker compose up -d --build --remove-orphans
       - echo "🚀 Deployment done."
+    when:
+      event:
+        - push
+      branch:
+        - main
