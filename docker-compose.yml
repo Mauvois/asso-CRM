@@ -31,7 +31,6 @@ services:
       PHP_POST_MAX_SIZE: 64M
     volumes:
       - wordpress_data:/var/www/html
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini   # 🆕 Ajoute cette ligne
     networks:
       - crm_net
     ports:
